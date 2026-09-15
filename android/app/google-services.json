@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "906445785484",
-    "firebase_url": "https://itssy-bfa56-default-rtdb.firebaseio.com",
-    "project_id": "itssy-bfa56",
-    "storage_bucket": "itssy-bfa56.firebasestorage.app"
+    "project_number": "70493263559",
+    "firebase_url": "https://mayitas-9bde2-default-rtdb.firebaseio.com",
+    "project_id": "mayitas-9bde2",
+    "storage_bucket": "mayitas-9bde2.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:906445785484:android:cfb03d25dc3de43769aea9",
+        "mobilesdk_app_id": "1:70493263559:android:ba8e3404c30ea32a5cd0e2",
         "android_client_info": {
           "package_name": "com.example.mayitasapp"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD6owWqEXziO1huEDqoqcbdVhSFgeHbt1I"
+          "current_key": "AIzaSyAhA_VolFWyMH9K-VIVRW7vDtyiD27WZp0"
         }
       ],
       "services": {

@@ -50,22 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAerZ-aMAKBejcwDODEFuT5d79kQWuzWug',
-    appId: '1:906445785484:web:02f7abc2ffe2fd1669aea9',
-    messagingSenderId: '906445785484',
-    projectId: 'itssy-bfa56',
-    authDomain: 'itssy-bfa56.firebaseapp.com',
-    databaseURL: 'https://itssy-bfa56-default-rtdb.firebaseio.com',
-    storageBucket: 'itssy-bfa56.firebasestorage.app',
-    measurementId: 'G-1N6WE2EFTB',
+    apiKey: 'AIzaSyAiV9z9UwhZ380TUgPg_NKdbziHRUt4rb0',
+    appId: '1:70493263559:web:c5838c625f292f545cd0e2',
+    messagingSenderId: '70493263559',
+    projectId: 'mayitas-9bde2',
+    authDomain: 'mayitas-9bde2.firebaseapp.com',
+    databaseURL: 'https://mayitas-9bde2-default-rtdb.firebaseio.com',
+    storageBucket: 'mayitas-9bde2.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD6owWqEXziO1huEDqoqcbdVhSFgeHbt1I',
-    appId: '1:906445785484:android:cfb03d25dc3de43769aea9',
-    messagingSenderId: '906445785484',
-    projectId: 'itssy-bfa56',
-    databaseURL: 'https://itssy-bfa56-default-rtdb.firebaseio.com',
-    storageBucket: 'itssy-bfa56.firebasestorage.app',
+    apiKey: 'AIzaSyAhA_VolFWyMH9K-VIVRW7vDtyiD27WZp0',
+    appId: '1:70493263559:android:ba8e3404c30ea32a5cd0e2',
+    messagingSenderId: '70493263559',
+    projectId: 'mayitas-9bde2',
+    databaseURL: 'https://mayitas-9bde2-default-rtdb.firebaseio.com',
+    storageBucket: 'mayitas-9bde2.firebasestorage.app',
   );
 }
