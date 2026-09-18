@@ -117,10 +117,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_database
-      sha256: "48dbe58dfb3be69efbb52cef770e9041c9696023124e059ec821b67ff19d74af"
+      sha256: bc3224770c3814486eda6f4d84291723cffabc24603db531994406a173b8b76e
       url: "https://pub.dev"
     source: hosted
-    version: "12.5.0"
+    version: "12.6.0"
   firebase_database_platform_interface:
     dependency: transitive
     description:

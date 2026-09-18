@@ -41,7 +41,7 @@ class _PantallaCargaState extends State<PantallaCarga> {
   Widget build(BuildContext context) {
     // 1. QUITAMOS el 'const' antes del Scaffold
     return Scaffold(
-      backgroundColor: Colors.blue, // Veo que cambiaste el fondo a azul, ¡se verá genial!
+      backgroundColor: Colors.orange, // Veo que cambiaste el fondo a azul, ¡se verá genial!
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

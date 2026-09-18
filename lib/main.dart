@@ -25,11 +25,14 @@ class MayitasApp extends StatelessWidget {
       title: 'Mayitas',
       debugShowCheckedModeBanner: false, // Oculta la etiqueta roja de "DEBUG" en la esquina.
       theme: ThemeData(
-        primarySwatch: Colors.blue, // Define el azul como color principal de la app.
-        fontFamily: 'ComicNeue', // Fuente amigable para niños (requiere agregarla luego).
-      ),
+        brightness: Brightness.dark, // Evita el destello blanco inicial
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black, // Fondo negro global para toda la app
+        fontFamily: 'ComicNeue', // Tu fuente personalizada
+),
       // EL CAMBIO ESTÁ AQUÍ:
       // En lugar del Scaffold con el texto, ahora arrancamos mostrando la Pantalla de Carga.
+      
       home: const PantallaCarga(), 
     );
   }

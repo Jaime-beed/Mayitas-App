@@ -1,0 +1,23 @@
+Cada archivo representa una pagina de la app
+  main.dart -> Es el que define toda la base o esqueleto de la app 
+  aqui se degfinen cosas como la tipografia a usar, tema (color)de la aplcacion
+
+  pantalla_login.dart -> todo lo visual y logico que conlleva la pantalla de login
+  pantalla_registro.dart -> todo lo visual y logico que conlleva la pantalla de registro
+  pantalla_carga.dart -> todo lo visual y logico que conlleva la pantalla de carga
+
+  pantalla_colores.dart -> menu de nveles de mayitas (tiene un codigo cualquiera lo puedehn borrar)
+  firebase_options.dart -> archivo de conexion a firebase del proyecto (NO LE MUEVEVAAAN)
+
+Importaciones (librerias prncipales)
+  import 'package:flutter/material.dart'; -> Importa el catálogo de diseño visual de Flutter.
+  import 'package:flutter/services.dart'; -> importa la libreria de logica e flutter
+  import 'package:firebase_auth/firebase_auth.dart'; -> importa las herramientas de conexion para la creacion de las cuentas de los usuarios
+
+codigos importantes
+      Image.network(
+              'link_de_fireabse_Storage' (imagen en nube), // Recuerda mantener las comillas simples
+              width: 150,
+              height: 150,
+              fit: BoxFit.contain,
+            ),  // Genera un contenedor donde se muestra una imagen (no cuenta como fondo)
