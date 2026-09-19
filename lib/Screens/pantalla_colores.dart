@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 
 class PantallaColores extends StatelessWidget {
   const PantallaColores({super.key});
@@ -10,6 +14,14 @@ class PantallaColores extends StatelessWidget {
         title: const Text('Colores en Maya', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Colors.orange,
         centerTitle: true,
+        actions: [
+          IconButton(icon: const Icon (Icons.logout),
+          tooltip: 'Cerrar sesión',
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+            await GoogleSignIn.instance.signOut();
+          })
+        ]
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,6 +59,7 @@ class BotonColor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final colorTexto = textoOscuro ? Colors.black87 : Colors.white;
 
     return ElevatedButton(
@@ -72,7 +85,9 @@ class BotonColor extends StatelessWidget {
             style: TextStyle(fontSize: 18, color: colorTexto.withOpacity(0.8)),
           ),
         ],
+        
       ),
     );
+    
   }
 }

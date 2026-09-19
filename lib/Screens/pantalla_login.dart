@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'pantalla_registro.dart'; // Importamos la pantalla de registro para la navegación
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import '../services/auth_SigIng_Google.dart';
 
 class PantallaLogin extends StatefulWidget {
   const PantallaLogin({super.key});
@@ -9,9 +13,28 @@ class PantallaLogin extends StatefulWidget {
 }
 
 class _PantallaLoginState extends State<PantallaLogin> {
+  
   final _formKey = GlobalKey<FormState>(); 
   bool _ocultarPassword = true;
+   Future<void> _entrarConGoogle() async {
+    try {
+ await AuthService.entrarConGoogle();
+    }on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) return;
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al iniciar sesión con Google: ${e.description}'), backgroundColor: Colors.red),
+      );
 
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(('Error: $e')), backgroundColor: Colors.red),
+      );
+     }
+     
+    }
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
@@ -128,7 +151,9 @@ class _PantallaLoginState extends State<PantallaLogin> {
                         
                         // Botón de Google
                         OutlinedButton.icon(
-                          onPressed: () {}, 
+                          onPressed: () {
+                            _entrarConGoogle();
+                          }, 
                           icon: const Icon(Icons.g_mobiledata, size: 32, color: Colors.white), 
                           label: const Text('Entrar con Google', style: TextStyle(color: Colors.white)), 
                         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart'; // Importa el catálogo visual de Flutter.
 import 'package:firebase_core/firebase_core.dart'; // Importa el núcleo de Firebase.
-import 'firebase_options.dart'; // Importa las llaves de tu base de datos generadas previamente.
-import 'pantalla_carga.dart'; // ¡NUEVO! Importamos el archivo de la pantalla de carga.
+import 'Services/firebase_options.dart'; // Importa las llaves de tu base de datos generadas previamente.
+import 'Screens/pantalla_carga.dart'; 
+import 'package:google_sign_in/google_sign_in.dart';// ¡NUEVO! Importamos el archivo de la pantalla de carga.
 
 void main() async {
   // Asegura que los motores de Flutter estén listos antes de ejecutar comandos externos.
@@ -10,6 +11,10 @@ void main() async {
   // Conecta la aplicación a tu proyecto de Firebase en la nube usando tus llaves.
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await GoogleSignIn.instance.initialize(
+    serverClientId: '70493263559-seg7t67pare8iv80vm0k9c90gu27ke6b.apps.googleusercontent.com.apps.googleusercontent.com', // Reemplaza con tu Client ID de Google
   );
   
   // Arranca la aplicación completa.
