@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import '../services/auth_SigIng_Google.dart';
+import 'pantalla_login.dart';
 
 
-
-class PantallaColores extends StatelessWidget {
-  const PantallaColores({super.key});
+class PantallaAnonimo extends StatelessWidget {
+  const PantallaAnonimo({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Colores en Maya', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-        backgroundColor: Colors.orange,
-        centerTitle: true,
-        actions: [
-          IconButton(icon: const Icon (Icons.logout),
-          tooltip: 'Cerrar sesión',
-          onPressed: () async {
-            await FirebaseAuth.instance.signOut();
-            await GoogleSignIn.instance.signOut();
-          })
-        ]
-      ),
+  title: const Text(
+    'Colores en Maya',
+    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+  ),
+  backgroundColor: Colors.orange,
+  centerTitle: true,
+  actions: [
+    IconButton(
+      icon: const Icon(Icons.logout),
+      tooltip: 'Cerrar sesión',
+      onPressed: () async {
+        await AuthService.cerrarSesion();
+
+        if (!context.mounted) return;
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const PantallaLogin()),
+          (route) => false,
+        );
+      },
+    ),
+  ],
+),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         // Cuadrícula de 2 columnas para botones grandes

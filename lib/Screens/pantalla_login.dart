@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mayitasapp/Screens/pantalla_anonimo.dart';
 import 'pantalla_registro.dart'; // Importamos la pantalla de registro para la navegación
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../services/auth_SigIng_Google.dart';
+import 'pantalla_principal.dart'; // Importamos la pantalla principal para la navegación después del login
 
 class PantallaLogin extends StatefulWidget {
   const PantallaLogin({super.key});
@@ -16,23 +18,106 @@ class _PantallaLoginState extends State<PantallaLogin> {
   
   final _formKey = GlobalKey<FormState>(); 
   bool _ocultarPassword = true;
-   Future<void> _entrarConGoogle() async {
-    try {
- await AuthService.entrarConGoogle();
-    }on GoogleSignInException catch (e) {
-      if (e.code == GoogleSignInExceptionCode.canceled) return;
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al iniciar sesión con Google: ${e.description}'), backgroundColor: Colors.red),
-      );
+  bool _cargando = false; // Variable para controlar el estado de carga
+  final _emailController = TextEditingController();
+  final _passwordController= TextEditingController();
+   @override
+   void dispose() {
+     _emailController.dispose();
+     _passwordController.dispose();
+     super.dispose();
+   }
+   void _mostrarMensaje(String texto, {Color color = Colors.red}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(texto), backgroundColor: color),
+    );
+  }
+   
 
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(('Error: $e')), backgroundColor: Colors.red),
-      );
-     }
-     
+   Future<void> _entrarConGoogle() async {
+  try {
+    await AuthService.entrarConGoogle();
+
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const PantallaPrincipal()),
+      (route) => false,
+    );
+  } on GoogleSignInException catch (e) {
+    if (e.code == GoogleSignInExceptionCode.canceled) return;
+    _mostrarMensaje('Error al iniciar sesión con Google: ${e.description}');
+  } catch (e) {
+    _mostrarMensaje('Error: $e');
+  }
+}
+
+Future<void> _restablecerPassword() async {
+  final correo = _emailController.text.trim();
+
+  if (correo.isEmpty || !correo.contains('@')) {
+    _mostrarMensaje('Escribe tu correo en el campo de arriba para enviarte el enlace.');
+    return;
+  }
+
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: correo);
+    _mostrarMensaje(
+      'Si el correo está registrado, recibirás un enlace para restablecer tu contraseña (verifica la carpeta de Spam).',
+      color: Colors.green,
+    );
+  } on FirebaseAuthException catch (e) {
+    final mensaje = e.code == 'network-request-failed'
+        ? 'Sin conexión. Revisa tu internet.'
+        : 'No se pudo enviar el correo: ${e.message}';
+    _mostrarMensaje(mensaje);
+  }
+}
+
+    Future<void>_inciarSesion() async {
+     if (!_formKey.currentState!.validate()) return;
+     setState(() {
+       _cargando = true; // Inicia el estado de carga
+     });
+      try{
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email:_emailController.text.trim(),
+        password:_passwordController.text.trim());
+
+        if (!mounted) return;
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute (builder:(_) => const PantallaPrincipal()),
+        (route) =>false,
+        );
+
+      }on FirebaseAuthException catch (e) {
+       String mensaje;
+       switch (e.code) {
+            case 'invalid-credential':
+      case 'user-not-found':
+      case 'wrong-password':
+        mensaje = 'Correo o contraseña incorrectos.';
+        break;
+      case 'too-many-requests':
+        mensaje = 'Demasiados intentos. Espera un momento.';
+        break;
+      case 'network-request-failed':
+        mensaje = 'Sin conexión. Revisa tu internet.';
+        break;
+      default:
+        mensaje = 'Error al iniciar sesión: ${e.message}';
+    } if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(mensaje), backgroundColor: Colors.red),
+        );
+       }catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        );
+
+      }finally { if (mounted) setState(() => _cargando =false);
+      
+      }
+
     }
    
   @override
@@ -73,6 +158,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
                         
                         // Campo de Correo Electrónico
                         TextFormField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           maxLength:150,
                           style: const TextStyle(color: Colors.white),
@@ -88,6 +174,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
                         // Campo de Contraseña con límite y ojito
                         TextFormField(
                           obscureText: _ocultarPassword, 
+                          controller: _passwordController,
                           maxLength: 20,
                           style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
@@ -115,30 +202,44 @@ class _PantallaLoginState extends State<PantallaLogin> {
                           },
                         ),
                         const SizedBox(height: 24), 
+
+                        Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                        onPressed: _cargando ? null : _restablecerPassword,
+                        child: const Text(
+                        '¿Olvidaste tu contraseña?',
+                        style: TextStyle(color: Colors.orange),
+                        ),
+                        ),
+                        ),
                         
                         // Botón de Iniciar Sesión
                         ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              // Aquí programaremos la función de Firebase para entrar
-                            }
-                          }, 
+                          onPressed: _cargando ? null : _inciarSesion , 
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(16), 
                             backgroundColor: Colors.orange, 
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
                           ), 
-                          child: const Text('Iniciar Sesión', style: TextStyle(fontSize: 18, color: Colors.black)),
+                          child: _cargando
+                              ? const SizedBox(
+                                 height: 22,
+                                 width: 22,
+                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
+                                )
+                          
+                           :const Text('Iniciar Sesión', style: TextStyle(fontSize: 18, color: Colors.black)),
                         ),
                         const SizedBox(height: 16), 
                         
                         // Botón para ir al Registro
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context, 
-                              MaterialPageRoute(builder: (context) => const Pantallaregistro())
-                            );
+                            Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (_) => const Pantallaregistro()),
+                            (route) => false,
+                           );
                           }, 
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(16), 
@@ -161,7 +262,12 @@ class _PantallaLoginState extends State<PantallaLogin> {
 
                         // Botón de Invitado
                         OutlinedButton.icon(
-                          onPressed: () {}, 
+                          onPressed: () {
+                           Navigator.of(context).pushAndRemoveUntil(
+                           MaterialPageRoute(builder: (_) => const PantallaAnonimo()),
+                           (route) => false,
+                           );
+                          }, 
                           icon: const Icon(Icons.person, size: 32, color: Colors.white), 
                           label: const Text('Entrar como invitado', style: TextStyle(color: Colors.white)), 
                         )

@@ -33,4 +33,4 @@ class AuthService {
     await GoogleSignIn.instance.signOut();
     await FirebaseAuth.instance.signOut();
   }
-}
+} 

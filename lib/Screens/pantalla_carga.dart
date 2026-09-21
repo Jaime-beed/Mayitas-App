@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart'; // Importa el catálogo de diseño (botones, textos, colores).
 import 'package:firebase_auth/firebase_auth.dart'; // Importa las herramientas de Firebase para leer sesiones.
-import 'pantalla_colores.dart'; // Importa la pantalla a la que iremos si ya hay sesión.
 import 'pantalla_login.dart'; // Importa la pantalla a la que iremos si NO hay sesión.
+import 'pantalla_principal.dart'; // Importa la pantalla principal a la que iremos si ya hay sesión.
 
 // Crea una pantalla dinámica (StatefulWidget) que puede realizar acciones con el tiempo.
 class PantallaCarga extends StatefulWidget {
@@ -20,7 +20,7 @@ class _PantallaCargaState extends State<PantallaCarga> {
 
   Future<void> _verificarSesion() async {
     // Pausa el código por 2 segundos para que el usuario alcance a ver el logo de la app.
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3 ));
     
     // Le pregunta a Firebase: "¿Hay algún usuario guardado en la memoria del celular?".
     final usuario = FirebaseAuth.instance.currentUser;
@@ -30,7 +30,7 @@ class _PantallaCargaState extends State<PantallaCarga> {
     
     if (usuario != null) {
       // Si hay usuario, Navigator (el chofer) destruye esta pantalla de carga y pone la de Colores encima.
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const PantallaColores()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const PantallaPrincipal()));
     } else {
       // Si 'usuario' es nulo, manda al usuario a la pantalla de Login para que inicie sesión.
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const PantallaLogin()));

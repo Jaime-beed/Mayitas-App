@@ -4,7 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mayitasapp/Screens/pantalla_login.dart';
 import '../services/auth_SigIng_Google.dart';
+import 'pantalla_principal.dart'; // Importamos la pantalla principal para la navegación después del login
+import "pantalla_edad.dart";
+import 'pantalla_anonimo.dart'; // Importamos la pantalla principal para la navegación después del login
 
 class Pantallaregistro extends StatefulWidget {
   const Pantallaregistro({super.key});
@@ -73,7 +77,10 @@ class _PantallaregistroState extends State<Pantallaregistro> {
           color: Colors.green);
 
       if (!mounted) return;
-      Navigator.pop(context);
+     Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const PantallaPrincipal()),
+                  (route) => false,
+                  );
     } on FirebaseAuthException catch (e) {
       _mostrarMensaje('Error al registrar: ${e.message}');
     } catch (e) {
@@ -91,15 +98,21 @@ class _PantallaregistroState extends State<Pantallaregistro> {
   }
 
   Future<void> _entrarConGoogle() async {
-    try {
-      await AuthService.entrarConGoogle();
-    } on GoogleSignInException catch (e) {
-      if (e.code == GoogleSignInExceptionCode.canceled) return;
-      _mostrarMensaje('Error al iniciar sesión con Google: ${e.description}');
-    } catch (e) {
-      _mostrarMensaje('Error: $e');
-    }
+  try {
+    await AuthService.entrarConGoogle();
+
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const PantallaEdad()),
+      (route) => false,
+    );
+  } on GoogleSignInException catch (e) {
+    if (e.code == GoogleSignInExceptionCode.canceled) return;
+    _mostrarMensaje('Error al iniciar sesión con Google: ${e.description}');
+  } catch (e) {
+    _mostrarMensaje('Error: $e');
   }
+}
 
   @override
   void dispose() {
@@ -215,6 +228,10 @@ class _PantallaregistroState extends State<Pantallaregistro> {
                       final edad = int.tryParse(value);
                       if (edad == null || edad <= 0) {
                         return 'Ingresa una edad válida';
+                      }
+
+                      if(edad>8){
+                        return 'El niño debe de tener de 4 a 8 años para registrarse';
                       }
                       return null;
                     },
@@ -340,18 +357,23 @@ class _PantallaregistroState extends State<Pantallaregistro> {
                   const SizedBox(height: 16),
 
                   // Ya tengo cuenta
-                  ElevatedButton(
-                    onPressed: _cargando ? null : () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(16),
-                      backgroundColor: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text(
-                      'Ya tengo cuenta',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ),
+                 ElevatedButton(
+                  onPressed: _cargando
+                  ? null
+                  : () => Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const PantallaLogin()),
+                  (route) => false,
+                  ),
+                   style: ElevatedButton.styleFrom(
+                   padding: const EdgeInsets.all(16),
+                   backgroundColor: Colors.orange,
+                   shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: const Text(
+                  'Ya tengo cuenta',
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                 ),
                   ),
                   const SizedBox(height: 16),
 
@@ -367,7 +389,12 @@ class _PantallaregistroState extends State<Pantallaregistro> {
 
                   // Invitado (pendiente de programar)
                   OutlinedButton.icon(
-                    onPressed: _cargando ? null : () {},
+                    onPressed: _cargando ? null : () {
+                     Navigator.of(context).pushAndRemoveUntil(
+                     MaterialPageRoute(builder: (_) => const PantallaAnonimo()),
+                     (route) => false,
+                     );
+                    },
                     icon: const Icon(Icons.person,
                         size: 32, color: Colors.white),
                     label: const Text('Entrar como invitado',

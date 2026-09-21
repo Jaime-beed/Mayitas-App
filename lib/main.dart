@@ -14,8 +14,10 @@ void main() async {
   );
 
   await GoogleSignIn.instance.initialize(
-    serverClientId: '70493263559-seg7t67pare8iv80vm0k9c90gu27ke6b.apps.googleusercontent.com.apps.googleusercontent.com', // Reemplaza con tu Client ID de Google
+    serverClientId: '70493263559-seg7t67pare8iv80vm0k9c90gu27ke6b.apps.googleusercontent.com', // Reemplaza con tu Client ID de Google
   );
+
+ 
   
   // Arranca la aplicación completa.
   runApp(const MayitasApp());
