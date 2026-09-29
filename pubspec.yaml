@@ -1,4 +1,4 @@
-name: mayitasapp
+name: Mayitas
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,6 +40,7 @@ dependencies:
   firebase_auth: ^6.7.0
   google_sign_in: ^7.2.0
 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -50,6 +51,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -61,11 +64,35 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/Fondos/fondot.png
+    - assets/Logos/logoprueba.png
+    - 'assets/Fondos/fondo_carga.png'
+
   fonts:
+
     - family: ComicNeue # Este es el nombre que usaremos en el código
       fonts:
         - asset: assets/fonts/ComicNeue-Bold.ttf # El nombre exacto de tu archivo
         - asset: assets/fonts/ComicNeue-Regular.ttf # El nombre exacto de tu archivo
         - asset: assets/fonts/ComicNeue-Italic.ttf # El nombre exacto de tu archivo
         - asset: assets/fonts/ComicNeue-BoldItalic.ttf # El nombre exacto de tu archivo
- 
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/Logos/icon.png"
+  min_sdk_android: 21 # opcional, según tu proyecto
+  remove_alpha_ios: true # iOS no permite transparencia en el icono
+
+
+flutter_native_splash:
+  color: "#ff8200" # Mismo naranja que usas en PantallaCarga
+  image: assets/Logos/Tapon.png # Tu logo, se dibuja encima
+  # Tu mismo logo
+
+  android_12:
+    color: "#ff8200"
+    image: assets/Logos/Tapon.png # Tu logo, se dibuja encima
+   

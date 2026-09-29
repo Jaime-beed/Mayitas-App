@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../services/auth_SigIng_Google.dart';
-import 'pantalla_login.dart';
+import 'Pantalla_bienvenida.dart';
 
 
 class PantallaAnonimo extends StatelessWidget {
@@ -29,7 +25,7 @@ class PantallaAnonimo extends StatelessWidget {
 
         if (!context.mounted) return;
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const PantallaLogin()),
+          MaterialPageRoute(builder: (_) => const PantallaBienvenida()),
           (route) => false,
         );
       },

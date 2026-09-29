@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:Mayitas/Screens/Pantalla_bienvenida.dart';
 import '../services/auth_SigIng_Google.dart';
-import 'pantalla_login.dart';
 
 class PantallaPrincipal extends StatefulWidget {
   const PantallaPrincipal({super.key});
@@ -28,7 +28,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
         onPressed:()async {
           await AuthService.cerrarSesion();
           Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const PantallaLogin()),
+                  MaterialPageRoute(builder: (_) => const PantallaBienvenida()),
                   (route) => false,
                   );
         },

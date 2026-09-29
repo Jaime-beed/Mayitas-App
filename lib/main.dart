@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart'; // Importa el catálogo visual de Flutter.
 import 'package:firebase_core/firebase_core.dart'; // Importa el núcleo de Firebase.
 import 'Services/firebase_options.dart'; // Importa las llaves de tu base de datos generadas previamente.
-import 'Screens/pantalla_carga.dart'; 
+import 'Screen_temporal/pantalla_carga.dart'; 
 import 'package:google_sign_in/google_sign_in.dart';// ¡NUEVO! Importamos el archivo de la pantalla de carga.
 
 void main() async {
@@ -15,7 +15,7 @@ void main() async {
 
   await GoogleSignIn.instance.initialize(
     serverClientId: '70493263559-seg7t67pare8iv80vm0k9c90gu27ke6b.apps.googleusercontent.com', // Reemplaza con tu Client ID de Google
-  );
+  ); 
 
  
   
@@ -43,4 +43,4 @@ class MayitasApp extends StatelessWidget {
       home: const PantallaCarga(), 
     );
   }
-}
+} 
