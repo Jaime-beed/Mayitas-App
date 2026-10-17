@@ -70,8 +70,9 @@ flutter:
     - assets/Logos/logo_principal.png
     - 'assets/Fondos/fondo_carga.png'
     - assets/Fondos/Fondo.jpg
-    - assets/Logos/logito.png
-    - assets/Personajes/Jaguar.png
+    - assets/Logos/logo_simple.png
+    - assets/Personajes/jaguar_sentado.png
+    - assets/Personajes/jaguar_sentado_piedra.png
     # Assets para el juego de Partes del cuerpo y otros juegos:
     - assets/Fondos/FondoJuego.png
     - assets/Fondos/borde.png

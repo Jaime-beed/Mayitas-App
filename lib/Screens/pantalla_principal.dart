@@ -65,12 +65,12 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                   children: [
                     // ---------- Logo (arriba izquierda) ----------
                     Positioned(
-                      left: w * (0.00), //izquierda
-                      top: h * (-0.11), //arriba
-                      height: h * 0.50, //tamaño
+                      left: w * (0.10), //izquierda
+                      top: h * (-0.01), //arriba
+                      height: h * 0.33, //tamaño
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.asset('assets/Logos/logito.png'),
+                        child: Image.asset('assets/Logos/logo_simple.png'),
                       ),
                     ),
 
@@ -130,7 +130,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                           borderRadius: BorderRadius.circular(18),
                         ),
                         child: Text(
-                          'Elige un módulo para comenzar',
+                          '¿Qué vamos a aprender hoy?',
                           style: TextStyle(
                             fontSize: h * 0.05,
                             fontWeight: FontWeight.bold,
@@ -187,7 +187,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               imagen: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
                                 child:
-                                    Image.asset('assets/Personajes/Jaguar.png'),
+                                    Image.asset('assets/Personajes/jaguar_sentado.png'),
                               ),
                               // TODO: Aquí mandas al juego de Animales.
                               onTap: () {},
@@ -281,12 +281,12 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
 
                     // ---------- Jaguar (abajo izquierda) ----------
                     Positioned(
-                      left: (-50),
+                      left: (-10),
                       bottom: 0,
                       height: h * 0.40,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.asset('assets/Personajes/Jaguar.png'),
+                        child: Image.asset('assets/Personajes/jaguar_sentado_piedra.png'),
                       ),
                     ),
 
@@ -303,7 +303,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
-                          '¡Sigue aprendiendo y\ncompleta todos los módulos!',
+                          '¡Sigue aprendiendo y\ncompleta todos los juegos!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: h * 0.04,
