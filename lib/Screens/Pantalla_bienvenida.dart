@@ -3,8 +3,6 @@
 // ============================================================
 import 'package:flutter/material.dart'; // Widgets de Material Design (Scaffold, Text, Button...)
 import 'package:firebase_auth/firebase_auth.dart'; // Autenticación de Firebase (login con correo)
-import 'package:Mayitas/Screens/pantalla_anonimo.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../services/auth_SigIng_Google.dart'; // Tu servicio de Google (revisa que el nombre del archivo sea EXACTAMENTE este)
 import 'pantalla_principal.dart'; // Pantalla a la que se va tras iniciar sesión
 import 'pantalla_editar_perfil.dart'; 

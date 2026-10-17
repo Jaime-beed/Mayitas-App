@@ -69,6 +69,15 @@ flutter:
     - assets/Fondos/fondo_p.png
     - assets/Logos/logo_principal.png
     - 'assets/Fondos/fondo_carga.png'
+    - assets/Fondos/Fondo.jpg
+    - assets/Logos/logito.png
+    - assets/Personajes/Jaguar.png
+    # Assets para el juego de Partes del cuerpo y otros juegos:
+    - assets/Fondos/FondoJuego.png
+    - assets/Fondos/borde.png
+    - assets/Botones/boton_inicio.png
+    - assets/Botones/boton_verificar.png
+    - assets/Personajes/nina.png
 
   fonts:
 
@@ -82,7 +91,7 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/Logos/icon.png"
+  image_path: "assets/Logos/Icon.png"
   min_sdk_android: 21 # opcional, según tu proyecto
   remove_alpha_ios: true # iOS no permite transparencia en el icono
 
