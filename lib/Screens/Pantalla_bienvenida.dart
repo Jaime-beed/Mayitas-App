@@ -58,7 +58,7 @@ Widget _botonCircular({required IconData icono, required Color colorIcono, requi
         mainAxisSize: MainAxisSize.min,
         children: [
       Icon(icono, color: colorIcono),
-      Text (texto,style: TextStyle(fontSize:10,color: colortexto)),
+      Text (texto,style: TextStyle(fontSize:12,color: colortexto)),
       ],
     ) ,
     ),
@@ -130,7 +130,7 @@ Future<void> _entrarConGoogle() async {
                     ),
                     const SizedBox(height: 24), // Espacio vertical
                     const Text(
-                      'Ingresa tu correo y contraseña',
+                      'Crea una cuenta o inicia sesión',
                       style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 24),
@@ -294,7 +294,7 @@ Future<void> _entrarConGoogle() async {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/Fondos/fondot.png'), // Debe existir y estar declarada en pubspec.yaml
+                image: AssetImage('assets/Fondos/fondo_p.png'), // Debe existir y estar declarada en pubspec.yaml
                 fit: BoxFit.cover, // Cubre toda la pantalla
               ),
             ),
@@ -312,10 +312,25 @@ Future<void> _entrarConGoogle() async {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Spacer(), // Empuja el título hacia el centro
-                  const Text(
-                    "Mayitas",
-                    style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
+                    // ↓↓↓ AQUÍ va lo nuevo (reemplaza el Text("Mayitas")) ↓↓↓
+        Image.network(
+          "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FLogo_letras.png?alt=media&token=5b87110e-ce9a-4d6a-bd31-5f7340eba324",
+          height: 380,
+          fit: BoxFit.contain,
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return const SizedBox(
+              height: 380,
+              child: Center(child: CircularProgressIndicator(color: Colors.orange)),
+            );
+          },
+          errorBuilder: (_, __, ___) => Image.asset(
+            'assets/Logos/logo_principal.png',
+            height: 280,
+            fit: BoxFit.contain,
+          ),
+        ),
+       
                   const Spacer(), // Empuja los botones hacia abajo
 
                   // Botón de Google
@@ -329,7 +344,7 @@ Future<void> _entrarConGoogle() async {
                     ),
                     icon: const Icon(Icons.g_mobiledata, size: 36, color: Colors.black),
                     label: const Text(
-                      'Continuar con Google',
+                      "Unete usando Google",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -343,7 +358,7 @@ Row(
     _botonCircular(
       icono: Icons.email,
       colorIcono: Colors.black,
-      texto:'Empezar',
+      texto: " Unete a mayitas",
       colortexto: Colors.black,
       onTap: _cargando ? null : _mostrarVentanaCorreo,
     ),

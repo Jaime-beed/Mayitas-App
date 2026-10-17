@@ -66,8 +66,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/Fondos/fondot.png
-    - assets/Logos/logoprueba.png
+    - assets/Fondos/fondo_p.png
+    - assets/Logos/logo_principal.png
     - 'assets/Fondos/fondo_carga.png'
 
   fonts:

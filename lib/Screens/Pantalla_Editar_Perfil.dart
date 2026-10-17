@@ -6,6 +6,7 @@ import 'package:flutter/services.dart'; // Para "FilteringTextInputFormatter" (s
 import 'package:firebase_auth/firebase_auth.dart'; // Para obtener el UID del usuario actual
 import 'package:firebase_database/firebase_database.dart'; // Realtime Database
 import 'pantalla_principal.dart'; // Pantalla a la que se va tras guardar el perfil
+import 'package:firebase_storage/firebase_storage.dart';
 
 // ============================================================
 // WIDGET PRINCIPAL
@@ -126,7 +127,7 @@ final edad = int.parse(_edadController.text.trim());
                 crossAxisAlignment: CrossAxisAlignment.stretch, // Los hijos ocupan todo el ancho disponible
                 children: [
                   const Text(
-                    'Completa el perfil',
+                    'crea tu perfil',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.orange),
                   ),
@@ -262,7 +263,7 @@ final edad = int.parse(_edadController.text.trim());
                       if (edad == null || edad <= 0) return 'Ingresa una edad válida';
                       // CORRECCIÓN: el texto decía "de 4 a 8 años" pero solo se validaba el máximo;
                       // ahora también se valida el mínimo de 4 años
-                      if (edad < 4 || edad > 8) return 'El niño debe tener de 4 a 8 años para registrarse';
+                      if (edad < 6 || edad > 10) return 'El niño debe tener de 4 a 8 años para registrarse';
                       return null;
                     },
                   ),
