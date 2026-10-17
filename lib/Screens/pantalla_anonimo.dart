@@ -91,7 +91,7 @@ class BotonColor extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             espanol,
-            style: TextStyle(fontSize: 18, color: colorTexto.withOpacity(0.8)),
+            style: TextStyle(fontSize: 18, color: colorTexto.withValues(alpha: 0.8)),
           ),
         ],
         

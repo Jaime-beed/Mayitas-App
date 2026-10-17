@@ -46,6 +46,10 @@ class _PantallaCargaState extends State<PantallaCarga> {
     final int edadGuardada = snapshot.exists
      ? (snapshot.child('edad').value as int? ?? 0) :0 ;// Consulta si el nodo existe
 
+    // Regla de seguridad: volvemos a verificar que la pantalla siga activa
+    // después del segundo await, antes de usar "context".
+    if (!mounted) return;
+
     if (edadGuardada >0) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const PantallaPrincipal()),
