@@ -65,12 +65,12 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                   children: [
                     // ---------- Logo (arriba izquierda) ----------
                     Positioned(
-                      left: w * (0.10), //izquierda
-                      top: h * (-0.01), //arriba
-                      height: h * 0.33, //tamaño
+                      left: w * (0.05), //izquierda
+                      top: h * (-0.05), //arriba
+                      height: h * 0.44, //tamaño
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.asset('assets/Logos/logo_simple.png'),
+                        child: Image.asset('assets/Logos/Logo_letras_decorado.png'),
                       ),
                     ),
 
@@ -281,12 +281,12 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
 
                     // ---------- Jaguar (abajo izquierda) ----------
                     Positioned(
-                      left: (-10),
-                      bottom: 0,
+                      left: (-14),
+                      bottom: -17,
                       height: h * 0.40,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.asset('assets/Personajes/jaguar_sentado_piedra.png'),
+                        child: Image.asset('assets/Personajes/jaguar_saludando.png'),
                       ),
                     ),
 

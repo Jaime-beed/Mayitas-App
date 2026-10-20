@@ -2,11 +2,13 @@ import 'package:flutter/material.dart'; // Importa el catálogo visual de Flutte
 import 'package:firebase_core/firebase_core.dart'; // Importa el núcleo de Firebase.
 import 'Services/firebase_options.dart'; // Importa las llaves de tu base de datos generadas previamente.
 import 'Screen_temporal/pantalla_carga.dart'; 
-import 'package:google_sign_in/google_sign_in.dart';// ¡NUEVO! Importamos el archivo de la pantalla de carga.
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/services.dart';// ¡NUEVO! Importamos el archivo de la pantalla de carga.
 
 void main() async {
   // Asegura que los motores de Flutter estén listos antes de ejecutar comandos externos.
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   
   // Conecta la aplicación a tu proyecto de Firebase en la nube usando tus llaves.
   await Firebase.initializeApp(

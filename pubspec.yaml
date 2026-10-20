@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.13.3
+  sdk: ^3.13.5
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -66,12 +66,13 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/Fondos/fondo_p.png
+    - assets/Fondos/fondo_principal.jpg
     - assets/Logos/logo_principal.png
-    - 'assets/Fondos/fondo_carga.png'
+    - 'assets/Fondos/fondo_carga.jpg'
     - assets/Fondos/Fondo.jpg
-    - assets/Logos/logo_simple.png
+    - assets/Logos/Logo_letras_decorado.png
     - assets/Personajes/jaguar_sentado.png
+    - assets/Personajes/jaguar_saludando.png
     - assets/Personajes/jaguar_sentado_piedra.png
     # Assets para el juego de Partes del cuerpo y otros juegos:
     - assets/Fondos/FondoJuego.png
@@ -99,7 +100,8 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#ff8200" # Mismo naranja que usas en PantallaCarga
-  image: assets/Logos/Tapon.png # Tu logo, se dibuja encima
+  image: assets/Logos/Tapon.png
+  fullscreen: true # Tu logo, se dibuja encima
   # Tu mismo logo
 
   android_12:

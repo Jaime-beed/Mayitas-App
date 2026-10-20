@@ -123,7 +123,7 @@ Widget build(BuildContext context) {
         // CAPA 1: imagen de fondo, cubre toda la pantalla
         Positioned.fill(
           child: Image.asset(
-            'assets/Fondos/fondo_carga.png', // Cambia esto por tu imagen de fondo
+            'assets/Fondos/fondo_carga.jpg', // Cambia esto por tu imagen de fondo
             fit: BoxFit.cover, // Cubre toda la pantalla, recortando si es necesario
           ),
         ),
@@ -172,7 +172,7 @@ Widget build(BuildContext context) {
                 
               ), 
               const SizedBox(height: 24),
-              const CircularProgressIndicator(color: Color.fromARGB(255, 7, 139, 0)),
+              const CircularProgressIndicator(color: Colors.orange), // Spinner de carga
             ],
           ),
         ),

@@ -30,8 +30,15 @@ class _PantallaEditarPerfilState extends State<PantallaEditarPerfil> {
   final _edadController = TextEditingController();
 
   // Enlaces públicos de Firebase Storage para los avatares
-  final String _urlAvatarNino = "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FPerfil%20ninio.png?alt=media&token=565e7c20-8aff-450a-bf8e-ca8f917840e0";
-  final String _urlAvatarNina = "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FPerfil%20ninia.png?alt=media&token=e6adc1f5-03e2-4119-9d5b-df09851baaf7";
+ // Reemplaza _urlAvatarNino y _urlAvatarNina por esto:
+final List<String> _avatares = [
+  "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FMeekkoj.png?alt=media&token=10d8814d-54ae-45cc-aaef-f5fb79f06c0b",
+   "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FKeej.png?alt=media&token=abc8dc3a-0009-454e-8419-a20ba9cf89c4",
+   "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FBaats.png?alt=media&token=46afb59d-6748-4f9c-9e25-b4ad57dfefa9",
+   "https://firebasestorage.googleapis.com/v0/b/mayitas-9bde2.firebasestorage.app/o/Logos%2FBalam.png?alt=media&token=02d927fe-72c7-41c6-9bd9-f9c454b7d025",
+  // Agrega aquí más enlaces de Firebase Storage
+];
+int _avatarIndex = 0; // Avatar elegido (no depende del género)
 
   // CORRECCIÓN: se agregó dispose() para liberar los controllers y evitar fugas de memoria
   @override
@@ -42,12 +49,167 @@ class _PantallaEditarPerfilState extends State<PantallaEditarPerfil> {
     super.dispose();
   }
 
+// ------------------------------------------------------------
+// AVATAR PRINCIPAL CON MARCO Y LÁPIZ
+// ------------------------------------------------------------
+Widget _selectorAvatar() {
+  return Column(
+    children: [
+      GestureDetector(
+        onTap: _abrirSelectorAvatar, // Tocar la foto o el lápiz abre el selector
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // Marco degradado con brillo
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: const LinearGradient(
+                  colors: [Colors.orange, Colors.amber, Colors.deepOrange],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.orange.withValues(alpha: 0.45),
+                    blurRadius: 18,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(3),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFF141416), // Separa el marco de la imagen
+                ),
+                child: CircleAvatar(
+                  radius: 52,
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: NetworkImage(_avatares[_avatarIndex]),
+                  onBackgroundImageError: (e, _) => debugPrint('Error avatar: $e'),
+                ),
+              ),
+            ),
+            // Botón del lápiz
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFF141416), width: 3),
+                ),
+                child: const Icon(Icons.edit, size: 18, color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(height: 10),
+      const Text(
+        'Toca el lápiz para cambiar tu foto',
+        style: TextStyle(color: Colors.grey, fontSize: 12),
+      ),
+    ],
+  );
+}
+
+// ------------------------------------------------------------
+// PANEL INFERIOR PARA ELEGIR AVATAR
+// ------------------------------------------------------------
+void _abrirSelectorAvatar() {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: const Color(0xFF1C1C1E),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (sheetContext) => SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Elige tu foto de perfil',
+              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 16,
+              runSpacing: 16,
+              children: List.generate(_avatares.length, (i) {
+                final seleccionado = i == _avatarIndex;
+                return GestureDetector(
+                  onTap: () {
+                    setState(() => _avatarIndex = i);
+                    Navigator.of(sheetContext).pop(); // Cierra el panel al elegir
+                  },
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: seleccionado ? Colors.orange : Colors.grey[800]!,
+                            width: seleccionado ? 4 : 2,
+                          ),
+                          boxShadow: seleccionado
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.orange.withValues(alpha: 0.5),
+                                    blurRadius: 12,
+                                    spreadRadius: 1,
+                                  ),
+                                ]
+                              : [],
+                        ),
+                        child: CircleAvatar(
+                          radius: 36,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage(_avatares[i]),
+                          onBackgroundImageError: (e, _) => debugPrint('Error avatar $i: $e'),
+                        ),
+                      ),
+                      // Palomita en el avatar seleccionado
+                      if (seleccionado)
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
+                              color: Colors.orange,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.check, size: 14, color: Colors.black),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
   // ------------------------------------------------------------
   // GUARDAR PERFIL EN REALTIME DATABASE
   // ------------------------------------------------------------
   Future<void> _guardarPerfil() async {
     if (!_formKey.currentState!.validate()) return; // Si algún campo falla su validator, no continúa
-final edad = int.parse(_edadController.text.trim());
+    final edad = int.parse(_edadController.text.trim());
 
     final confirmado = await showDialog<bool>(
       context: context,
@@ -75,7 +237,7 @@ final edad = int.parse(_edadController.text.trim());
     setState(() => _cargando = true); // Activa el spinner en el botón
     try {
       final String idUsuario = FirebaseAuth.instance.currentUser!.uid; // UID del usuario ya autenticado
-      final String avatarFinal = _generoSeleccionado == 'Niño' ? _urlAvatarNino : _urlAvatarNina; // Elige avatar según selección
+      final String avatarFinal = _avatares[_avatarIndex]; // Elige avatar según selección
 
       // Referencia al nodo "usuarios/<uid>" dentro de Realtime Database
       final DatabaseReference ref = FirebaseDatabase.instance.ref("usuarios/$idUsuario");
@@ -134,15 +296,8 @@ final edad = int.parse(_edadController.text.trim());
                   const SizedBox(height: 32),
 
                   // ---------- AVATAR DINÁMICO ----------
-                  Center(
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Colors.transparent,
-                      // Cambia la imagen según el género elegido
-                      backgroundImage: NetworkImage(_generoSeleccionado == 'Niño' ? _urlAvatarNino : _urlAvatarNina),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
+                  _selectorAvatar(),
+                  const SizedBox(height: 32),  
 
                   // ---------- SELECTOR NIÑO / NIÑA ----------
                   Row(
@@ -248,7 +403,7 @@ final edad = int.parse(_edadController.text.trim());
                   TextFormField(
                     controller: _edadController,
                     keyboardType: TextInputType.number, // Teclado numérico
-                    maxLength: 1, // Máximo 2 dígitos
+                    maxLength: 2, // Máximo 2 dígitos
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Bloquea letras/símbolos
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
@@ -263,7 +418,7 @@ final edad = int.parse(_edadController.text.trim());
                       if (edad == null || edad <= 0) return 'Ingresa una edad válida';
                       // CORRECCIÓN: el texto decía "de 4 a 8 años" pero solo se validaba el máximo;
                       // ahora también se valida el mínimo de 4 años
-                      if (edad < 6 || edad > 10) return 'El niño debe tener de 4 a 8 años para registrarse';
+                      if (edad < 6 || edad > 10) return 'El niño debe tener de 6 a 10 años para registrarse';
                       return null;
                     },
                   ),
