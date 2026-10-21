@@ -74,6 +74,7 @@ flutter:
     - assets/Personajes/jaguar_sentado.png
     - assets/Personajes/jaguar_saludando.png
     - assets/Personajes/jaguar_sentado_piedra.png
+    - assets/Fondos/Fondo_EP.jpg
     # Assets para el juego de Partes del cuerpo y otros juegos:
     - assets/Fondos/FondoJuego.png
     - assets/Fondos/borde.png
