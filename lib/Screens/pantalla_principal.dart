@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:Mayitas/Screens/Pantalla_bienvenida.dart';
+import '../Screen_temporal/pantalla_carga.dart';
 import 'package:Mayitas/Juegos/PartesCuerpo/jueguito_cuerpo.dart';
-import '../services/auth_SigIng_Google.dart';
+import '../Services/auth_SigIng_Google.dart';
+import 'package:firebase_database/firebase_database.dart';
+import '../Services/progreso_service.dart';
+import '../Services/audio_service.dart'; // NUEVO: música y efectos
 
 const _crema = Color(0xFFFBE9CB);
 const _textoOscuro = Color(0xFF2E2E2E);
@@ -18,10 +21,24 @@ class PantallaPrincipal extends StatefulWidget {
 
 class _PantallaPrincipalState extends State<PantallaPrincipal> {
   final User? _usuario = FirebaseAuth.instance.currentUser;
+  final _db = FirebaseDatabase.instance;
+
+  // Se crea UNA sola vez (en initState) para que la barra no parpadee
+  // ni se vuelva a conectar cada vez que la pantalla se redibuja.
+  Stream<DatabaseEvent>? _perfilStream;
 
   @override
   void initState() {
     super.initState();
+
+    final u = _usuario;
+    if (u != null) {
+      _perfilStream = _db.ref('usuarios/${u.uid}').onValue;
+    }
+
+    // Música del menú (si ya está sonando, no se reinicia)
+    AudioService.instance.reproducirMusica('music/menu.mp3');
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -35,25 +52,93 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
   }
 
   Future<void> _cerrarSesion() async {
+    AudioService.instance.detenerMusica();
     await AuthService.cerrarSesion();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const PantallaBienvenida()),
+      MaterialPageRoute(builder: (_) => const PantallaCarga()),
       (route) => false,
+    );
+  }
+
+  // ------------------------------------------------------------
+  // AJUSTES: volumen y silencio de música y efectos
+  // ------------------------------------------------------------
+  void _abrirAjustes() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        // Texto oscuro sobre fondo crema fijo: siempre se lee, sin
+        // importar el tema de la app
+        const estilo = TextStyle(color: _textoOscuro);
+        final audio = AudioService.instance;
+
+        return ListenableBuilder(
+          listenable: audio, // se redibuja solo cuando cambia el audio
+          builder: (context, _) => AlertDialog(
+            backgroundColor: _crema,
+            title: const Text('Ajustes', style: estilo),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ---------- Música ----------
+                  SwitchListTile(
+                    title: const Text('Silenciar música', style: estilo),
+                    value: audio.musicaSilenciada,
+                    onChanged: audio.setMusicaSilenciada,
+                  ),
+                  const Text('Volumen de la música', style: estilo),
+                  Slider(
+                    value: audio.volumenMusica,
+                    onChanged:
+                        audio.musicaSilenciada ? null : audio.setVolumenMusica,
+                  ),
+                  const Divider(),
+
+                  // ---------- Efectos ----------
+                  SwitchListTile(
+                    title: const Text('Silenciar efectos', style: estilo),
+                    value: audio.efectosSilenciados,
+                    onChanged: audio.setEfectosSilenciados,
+                  ),
+                  const Text('Volumen de los efectos', style: estilo),
+                  Slider(
+                    value: audio.volumenEfectos,
+                    onChanged: audio.efectosSilenciados
+                        ? null
+                        : audio.setVolumenEfectos,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: _cerrarSesion,
+                child: const Text('Cerrar sesión', style: estilo),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cerrar', style: estilo),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final completo = _usuario?.displayName?.trim() ?? '';
-    final nombre = completo.isEmpty ? 'amigo' : completo.split(' ').first;
+    // Copia local: así Dart sabe que, dentro de los builders, no es null
+    final usuario = _usuario;
 
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
           // Fondo
-          Image.asset('assets/Fondos/Fondo.jpg', fit: BoxFit.cover),
+          Image.asset('assets/Fondos/Fondo_Menu.jpg', fit: BoxFit.cover),
 
           SafeArea(
             child: LayoutBuilder(
@@ -74,38 +159,61 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                       ),
                     ),
 
-                    // ---------- Barra de perfil ----------
+                    // ---------- Barra de perfil (centrada, con datos de Firebase) ----------
                     Positioned(
-                      left: w * 0.39,
-                      width: w * 0.46,
+                      left: w * 0.27,
+                      right: w * 0.27,
                       top: h * 0.035,
                       height: h * 0.125,
-                      child: _BarraPerfil(
-                        nombre: nombre,
-                        fotoUrl: _usuario?.photoURL,
-                        nivel: 2,
-                        progreso: 0.5,
-                        h: h,
-                      ),
+                      child: usuario == null
+                          ? const SizedBox()
+                          : StreamBuilder<DatabaseEvent>(
+                              stream: _perfilStream,
+                              builder: (context, snap) {
+                                final raw = snap.data?.snapshot.value;
+                                final datos =
+                                    raw is Map ? raw : <dynamic, dynamic>{};
+
+                                // Experiencia -> nivel y progreso
+                                final info = ProgresoService.calcular(
+                                    ProgresoService.leerExperiencia(raw));
+
+                                // Nombre: el de la base de datos, y si no hay, el de Google
+                                final guardado =
+                                    (datos['nombre'] as String?)?.trim() ?? '';
+                                final base = guardado.isNotEmpty
+                                    ? guardado
+                                    : (usuario.displayName ?? '');
+                                final nombreBarra = base.trim().isEmpty
+                                    ? 'amigo'
+                                    : base.trim().split(' ').first;
+
+                                // Foto: el avatar elegido, y si no hay, la de Google
+                                final avatar = datos['avatar_url'] as String?;
+                                final foto =
+                                    (avatar != null && avatar.isNotEmpty)
+                                        ? avatar
+                                        : usuario.photoURL;
+
+                                return _BarraPerfil(
+                                  nombre: nombreBarra,
+                                  fotoUrl: foto,
+                                  nivel: info.nivel,
+                                  progreso: info.progreso,
+                                  h: h,
+                                );
+                              },
+                            ),
                     ),
 
-                    // ---------- Engrane ----------
+                    // ---------- Engrane (abre los ajustes) ----------
                     Positioned(
                       right: w * 0.025,
                       top: h * 0.045,
                       width: h * 0.1,
                       height: h * 0.1,
-                      child: PopupMenuButton<String>(
-                        onSelected: (v) {
-                          if (v == 'salir') _cerrarSesion();
-                        },
-                        itemBuilder: (_) => const [
-                          PopupMenuItem(
-                            value: 'salir',
-                            child: Text('Cerrar sesión',
-                                style: TextStyle(color: _textoOscuro)),
-                          ),
-                        ],
+                      child: GestureDetector(
+                        onTap: _abrirAjustes,
                         child: Container(
                           decoration: const BoxDecoration(
                             color: Color(0xFFFFF3DC),

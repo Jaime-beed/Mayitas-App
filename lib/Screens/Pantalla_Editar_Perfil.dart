@@ -335,7 +335,6 @@ final List<String> _avataresNino = [
         'edad': edad,
         'genero': _generoSeleccionado,
         'avatar_url': avatarFinal,
-        'nivel': 0,
         'experiencia': 0,
         'monedas': 0,
         'skins': "",
