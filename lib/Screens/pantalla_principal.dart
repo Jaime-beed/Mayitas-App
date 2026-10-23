@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Mayitas/Screens/Pantalla_bienvenida.dart';
 import 'package:Mayitas/Juegos/PartesCuerpo/jueguito_cuerpo.dart';
+import 'package:Mayitas/Juegos/JuegosColores/jueguito_clasifica.dart';
+
 import '../services/auth_SigIng_Google.dart';
 
 const _crema = Color(0xFFFBE9CB);
@@ -70,7 +72,9 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                       height: h * 0.44, //tamaño
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.asset('assets/Logos/Logo_letras_decorado.png'),
+                        child: Image.asset(
+                          'assets/Logos/Logo_letras_decorado.png',
+                        ),
                       ),
                     ),
 
@@ -102,8 +106,10 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                         itemBuilder: (_) => const [
                           PopupMenuItem(
                             value: 'salir',
-                            child: Text('Cerrar sesión',
-                                style: TextStyle(color: _textoOscuro)),
+                            child: Text(
+                              'Cerrar sesión',
+                              style: TextStyle(color: _textoOscuro),
+                            ),
                           ),
                         ],
                         child: Container(
@@ -111,8 +117,11 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                             color: Color(0xFFFFF3DC),
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(Icons.settings,
-                              size: h * 0.06, color: const Color(0xFF5A5A5A)),
+                          child: Icon(
+                            Icons.settings,
+                            size: h * 0.06,
+                            color: const Color(0xFF5A5A5A),
+                          ),
                         ),
                       ),
                     ),
@@ -163,13 +172,18 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               hechas: 1,
                               total: 5,
                               h: h,
-                              imagen: Icon(Icons.palette,
-                                  color: Colors.white, size: h * 0.2),
-                              // TODO: Aquí mandas al juego de Colores. Ejemplo:
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(builder: (_) => const JuegoColores()),
-                              // );
-                              onTap: () {},
+                              imagen: Icon(
+                                Icons.palette,
+                                color: Colors.white,
+                                size: h * 0.2,
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const JuegoColores(),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           // ---------- Módulo: Animales ----------
@@ -186,8 +200,9 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               h: h,
                               imagen: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                child:
-                                    Image.asset('assets/Personajes/jaguar_sentado.png'),
+                                child: Image.asset(
+                                  'assets/Personajes/jaguar_sentado.png',
+                                ),
                               ),
                               // TODO: Aquí mandas al juego de Animales.
                               onTap: () {},
@@ -222,8 +237,11 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               hechas: 0,
                               total: 5,
                               h: h,
-                              imagen: Icon(Icons.forum,
-                                  color: Colors.white, size: h * 0.2),
+                              imagen: Icon(
+                                Icons.forum,
+                                color: Colors.white,
+                                size: h * 0.2,
+                              ),
                               // TODO: Aquí mandas al juego de Saludos.
                               onTap: () {},
                             ),
@@ -240,15 +258,19 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               hechas: 0,
                               total: 5,
                               h: h,
-                              imagen: Icon(Icons.accessibility_new,
-                                  color: Colors.white, size: h * 0.2),
+                              imagen: Icon(
+                                Icons.accessibility_new,
+                                color: Colors.white,
+                                size: h * 0.2,
+                              ),
                               // AQUÍ se manda al juego de Partes del cuerpo.
                               // El widget JueguitoCuerpo vive en:
                               // lib/Juegos/PartesCuerpo/jueguito_cuerpo.dart
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (_) => const JuegoPartesCuerpo()),
+                                    builder: (_) => const JuegoPartesCuerpo(),
+                                  ),
                                 );
                               },
                             ),
@@ -266,8 +288,11 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               total: 50,
                               etiqueta: 'palabras',
                               h: h,
-                              imagen: Icon(Icons.menu_book,
-                                  color: Colors.white, size: h * 0.2),
+                              imagen: Icon(
+                                Icons.menu_book,
+                                color: Colors.white,
+                                size: h * 0.2,
+                              ),
                               // TODO: Aquí mandas a la pantalla de Diccionario. Ejemplo:
                               // Navigator.of(context).push(
                               //   MaterialPageRoute(builder: (_) => const Diccionario()),
@@ -286,7 +311,9 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                       height: h * 0.40,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.asset('assets/Personajes/jaguar_saludando.png'),
+                        child: Image.asset(
+                          'assets/Personajes/jaguar_saludando.png',
+                        ),
                       ),
                     ),
 
@@ -330,7 +357,9 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                           ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                              color: const Color(0xFF3E2812), width: 3),
+                            color: const Color(0xFF3E2812),
+                            width: 3,
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -340,9 +369,11 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                                 color: const Color(0xFFF3E2C0),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Icon(Icons.filter_vintage,
-                                  size: h * 0.05,
-                                  color: const Color(0xFF8A5A2B)),
+                              child: Icon(
+                                Icons.filter_vintage,
+                                size: h * 0.05,
+                                color: const Color(0xFF8A5A2B),
+                              ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
@@ -353,7 +384,8 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                                     TextSpan(
                                       text: '♥',
                                       style: TextStyle(
-                                          color: Color(0xFFFF5C5C)),
+                                        color: Color(0xFFFF5C5C),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -422,35 +454,46 @@ class _BarraPerfil extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hola, $nombre',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: _textoOscuro,
-                        fontWeight: FontWeight.bold,
-                        fontSize: h * 0.04)),
-                Text('¡Qué bueno verte de nuevo!',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: const Color(0xFF5A5A5A), fontSize: h * 0.027)),
+                Text(
+                  'Hola, $nombre',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: _textoOscuro,
+                    fontWeight: FontWeight.bold,
+                    fontSize: h * 0.04,
+                  ),
+                ),
+                Text(
+                  '¡Qué bueno verte de nuevo!',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: const Color(0xFF5A5A5A),
+                    fontSize: h * 0.027,
+                  ),
+                ),
               ],
             ),
           ),
           Container(
-              width: 1.5,
-              height: h * 0.08,
-              color: const Color(0xFFD9C29A),
-              margin: EdgeInsets.symmetric(horizontal: h * 0.02)),
+            width: 1.5,
+            height: h * 0.08,
+            color: const Color(0xFFD9C29A),
+            margin: EdgeInsets.symmetric(horizontal: h * 0.02),
+          ),
           Icon(Icons.star, color: const Color(0xFFFFC928), size: h * 0.065),
           SizedBox(width: h * 0.01),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Nivel $nivel',
-                  style: TextStyle(
-                      color: _textoOscuro,
-                      fontWeight: FontWeight.bold,
-                      fontSize: h * 0.035)),
+              Text(
+                'Nivel $nivel',
+                style: TextStyle(
+                  color: _textoOscuro,
+                  fontWeight: FontWeight.bold,
+                  fontSize: h * 0.035,
+                ),
+              ),
               SizedBox(height: h * 0.01),
               SizedBox(
                 width: h * 0.3,
@@ -514,12 +557,19 @@ class ModuloCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             boxShadow: const [
               BoxShadow(
-                  blurRadius: 8, offset: Offset(0, 4), color: Colors.black26),
+                blurRadius: 8,
+                offset: Offset(0, 4),
+                color: Colors.black26,
+              ),
             ],
           ),
           child: Container(
             padding: EdgeInsets.fromLTRB(
-                h * 0.015, h * 0.02, h * 0.015, h * 0.02),
+              h * 0.015,
+              h * 0.02,
+              h * 0.015,
+              h * 0.02,
+            ),
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(24),
@@ -532,19 +582,24 @@ class ModuloCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: h * 0.01),
-                Text(titulo,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: h * 0.04,
-                        fontWeight: FontWeight.bold,
-                        height: 1.1,
-                        color: colorTitulo)),
+                Text(
+                  titulo,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: h * 0.04,
+                    fontWeight: FontWeight.bold,
+                    height: 1.1,
+                    color: colorTitulo,
+                  ),
+                ),
                 SizedBox(height: h * 0.012),
                 Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: h * 0.03, vertical: h * 0.01),
+                    horizontal: h * 0.03,
+                    vertical: h * 0.01,
+                  ),
                   decoration: BoxDecoration(
                     color: colorPildora,
                     borderRadius: BorderRadius.circular(20),
@@ -552,12 +607,19 @@ class ModuloCard extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.star,
-                          size: h * 0.035, color: const Color(0xFFFFE07A)),
+                      Icon(
+                        Icons.star,
+                        size: h * 0.035,
+                        color: const Color(0xFFFFE07A),
+                      ),
                       SizedBox(width: h * 0.01),
-                      Text('$hechas/$total $etiqueta',
-                          style: TextStyle(
-                              color: Colors.white, fontSize: h * 0.028)),
+                      Text(
+                        '$hechas/$total $etiqueta',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: h * 0.028,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -577,18 +639,21 @@ class _Numeros123 extends StatelessWidget {
   Widget _num(String t, Color c) {
     return Stack(
       children: [
-        Text(t,
-            style: TextStyle(
-              fontSize: 80,
-              fontWeight: FontWeight.w900,
-              foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 8
-                ..color = Colors.white,
-            )),
-        Text(t,
-            style: TextStyle(
-                fontSize: 80, fontWeight: FontWeight.w900, color: c)),
+        Text(
+          t,
+          style: TextStyle(
+            fontSize: 80,
+            fontWeight: FontWeight.w900,
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 8
+              ..color = Colors.white,
+          ),
+        ),
+        Text(
+          t,
+          style: TextStyle(fontSize: 80, fontWeight: FontWeight.w900, color: c),
+        ),
       ],
     );
   }

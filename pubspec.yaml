@@ -80,6 +80,12 @@ flutter:
     - assets/Botones/boton_inicio.png
     - assets/Botones/boton_verificar.png
     - assets/Personajes/nina.png
+    #para el juego de colores
+    - assets/Objetos_colores/canasta_roja.png
+    - assets/Objetos_colores/canasta_azul.png
+    - assets/Objetos_colores/canasta_amarilla.png
+    - assets/Objetos_colores/canasta_verde.png
+    - assets/Objetos_colores/canasta_naranja.png
 
   fonts:
 
