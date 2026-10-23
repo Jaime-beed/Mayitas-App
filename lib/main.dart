@@ -4,6 +4,7 @@ import 'Services/firebase_options.dart'; // Importa las llaves de tu base de dat
 import 'Screen_temporal/pantalla_carga.dart'; 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/services.dart';// ¡NUEVO! Importamos el archivo de la pantalla de carga.
+import 'package:Mayitas/Services/audio_service.dart';
 
 void main() async {
   // Asegura que los motores de Flutter estén listos antes de ejecutar comandos externos.
@@ -18,7 +19,8 @@ void main() async {
   await GoogleSignIn.instance.initialize(
     serverClientId: '70493263559-seg7t67pare8iv80vm0k9c90gu27ke6b.apps.googleusercontent.com', // Reemplaza con tu Client ID de Google
   ); 
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await AudioService.instance.iniciar();
  
   
   // Arranca la aplicación completa.

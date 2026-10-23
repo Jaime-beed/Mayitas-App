@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart'; // Autenticación de Firebase
 import '../services/auth_SigIng_Google.dart'; // Tu servicio de Google (revisa que el nombre del archivo sea EXACTAMENTE este)
 import 'pantalla_principal.dart'; // Pantalla a la que se va tras iniciar sesión
 import 'pantalla_editar_perfil.dart';
-import '../Screen_temporal/pantalla_carga.dart'; // Pantalla de carga que decide a dónde ir
+import '../Screen_temporal/pantalla_carga.dart';
+ // Pantalla de carga que decide a dónde ir
 
 // ============================================================
 // WIDGET PRINCIPAL (StatefulWidget = pantalla que cambia con el tiempo)

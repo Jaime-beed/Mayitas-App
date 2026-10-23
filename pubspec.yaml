@@ -39,6 +39,8 @@ dependencies:
   firebase_storage: ^13.5.0
   firebase_auth: ^6.7.0
   google_sign_in: ^7.2.0
+  audioplayers: ^6.8.1
+  shared_preferences: ^2.5.6
 
   
 dev_dependencies:
@@ -69,11 +71,13 @@ flutter:
     - assets/Fondos/fondo_principal.jpg
     - assets/Logos/logo_principal.png
     - 'assets/Fondos/fondo_carga.jpg'
-    - assets/Fondos/Fondo.jpg
+    - assets/Fondos/Fondo_Menu.jpg
     - assets/Logos/Logo_letras_decorado.png
     - assets/Personajes/jaguar_sentado.png
     - assets/Personajes/jaguar_saludando.png
     - assets/Personajes/jaguar_sentado_piedra.png
+    - assets/Fondos/Fondo_EP.jpg
+    - assets/music/menu.mp3
     # Assets para el juego de Partes del cuerpo y otros juegos:
     - assets/Fondos/FondoJuego.png
     - assets/Fondos/borde.png
