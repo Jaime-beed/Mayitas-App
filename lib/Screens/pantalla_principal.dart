@@ -6,6 +6,7 @@ import '../Screen_temporal/pantalla_carga.dart';
 import 'package:Mayitas/Juegos/PartesCuerpo/jueguito_cuerpo.dart';
 <<<<<<< HEAD
 import 'package:Mayitas/Juegos/JuegosColores/jueguito_clasifica.dart';
+import 'package:Mayitas/Juegos/Numeros/juego_numeros.dart';
 
 import '../services/auth_SigIng_Google.dart';
 =======
@@ -345,7 +346,11 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                               h: h,
                               imagen: const _Numeros123(),
                               // TODO: Aquí mandas al juego de Números.
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).push(
+       MaterialPageRoute(builder: (_) => const JuegoNumeros()),
+     );
+                              },
                             ),
                           ),
                           // ---------- Módulo: Saludos ----------
