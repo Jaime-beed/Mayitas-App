@@ -4,17 +4,17 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Screen_temporal/pantalla_carga.dart';
 import 'package:Mayitas/Juegos/PartesCuerpo/jueguito_cuerpo.dart';
-<<<<<<< HEAD
 import 'package:Mayitas/Juegos/JuegosColores/jueguito_clasifica.dart';
 import 'package:Mayitas/Juegos/Numeros/juego_numeros.dart';
 
-import '../services/auth_SigIng_Google.dart';
-=======
 import '../Services/auth_SigIng_Google.dart';
 import 'package:firebase_database/firebase_database.dart';
 import '../Services/progreso_service.dart';
 import '../Services/audio_service.dart'; // NUEVO: música y efectos
->>>>>>> 748133c244f07da79ab31dcb38603dd0465f34aa
+import 'MiInfo/mi_info_screen.dart';
+import 'MiInfo/modelo/perfil_firebase.dart';
+import 'MiInfo/servicio/perfil_servicio.dart';
+import 'MiInfo/widgets/avatar_usuario.dart';
 
 const _crema = Color(0xFFFBE9CB);
 const _textoOscuro = Color(0xFF2E2E2E);
@@ -33,6 +33,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
   // Se crea UNA sola vez (en initState) para que la barra no parpadee
   // ni se vuelva a conectar cada vez que la pantalla se redibuja.
   Stream<DatabaseEvent>? _perfilStream;
+  String? _avatarUrl;
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
     if (u != null) {
       _perfilStream = _db.ref('usuarios/${u.uid}').onValue;
     }
+    _leerAvatar();
 
     // Música del menú (si ya está sonando, no se reinicia)
     AudioService.instance.reproducirMusica('music/menu.mp3');
@@ -50,6 +52,12 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+  }
+
+  Future<void> _leerAvatar() async {
+    final PerfilFirebase? perfil = await PerfilServicio.leerPerfilActual();
+    if (!mounted || perfil == null) return;
+    setState(() => _avatarUrl = perfil.avatarUrl);
   }
 
   @override
@@ -215,38 +223,62 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
                             ),
                     ),
 
-                    // ---------- Engrane (abre los ajustes) ----------
+                    // ---------- Avatar (Mi Info) + Engrane (abre los ajustes) ----------
                     Positioned(
                       right: w * 0.025,
                       top: h * 0.045,
-                      width: h * 0.1,
-                      height: h * 0.1,
-                      child: PopupMenuButton<String>(
-                        onSelected: (v) {
-                          if (v == 'salir') _cerrarSesion();
-                        },
-                        itemBuilder: (_) => const [
-                          PopupMenuItem(
-                            value: 'salir',
-                            child: Text(
-                              'Cerrar sesión',
-                              style: TextStyle(color: _textoOscuro),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                    builder: (_) => const MiInfoScreen()),
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: h * 0.015),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFFF3DC),
+                                shape: BoxShape.circle,
+                              ),
+                              child: AvatarUsuario(tamano: h * 0.07, url: _avatarUrl),
+                            ),
+                          ),
+                          SizedBox(
+                            width: h * 0.1,
+                            height: h * 0.1,
+                            child: PopupMenuButton<String>(
+                              onSelected: (v) {
+                                if (v == 'salir') _cerrarSesion();
+                              },
+                              itemBuilder: (_) => const [
+                                PopupMenuItem(
+                                  value: 'salir',
+                                  child: Text(
+                                    'Cerrar sesión',
+                                    style: TextStyle(color: _textoOscuro),
+                                  ),
+                                ),
+                              ],
+                              child: GestureDetector(
+                                onTap: _abrirAjustes,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFFF3DC),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.settings,
+                                    size: h * 0.06,
+                                    color: const Color(0xFF5A5A5A),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],
-                      child: GestureDetector(
-                        onTap: _abrirAjustes,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFFF3DC),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.settings,
-                            size: h * 0.06,
-                            color: const Color(0xFF5A5A5A),
-                          ),
-                        ),
                       ),
                     ),
 

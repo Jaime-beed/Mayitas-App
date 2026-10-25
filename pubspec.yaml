@@ -41,6 +41,7 @@ dependencies:
   google_sign_in: ^7.2.0
   audioplayers: ^6.8.1
   shared_preferences: ^2.5.6
+  flutter_svg: ^2.3.0
 
   
 dev_dependencies:
@@ -90,6 +91,9 @@ flutter:
     - assets/Objetos_colores/canasta_amarilla.png
     - assets/Objetos_colores/canasta_verde.png
     - assets/Objetos_colores/canasta_naranja.png
+    #para informacion de perfil
+    - lib/imagenes/
+
 
   fonts:
 
